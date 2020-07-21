@@ -10,3 +10,7 @@ In the following files, I count the frequency of gender word in th articles gath
 
 ## Counting Mentions of George Floyd and Breonna Taylor
 In the file [Mentions](https://github.com/khahnmad/Gender-in-the-Media-Coverage-of-BLM-Movement/blob/master/Mentions.py), I count the number of times that Breonna Taylor and George Floyd are mentioned in all the articles gathered. 
+
+## Counting Mentions of "Say Her Name"
+In the file [Say-her-name](https://github.com/khahnmad/Gender-in-the-Media-Coverage-of-BLM-Movement/blob/master/Say-her-name.py), I count the number of times that "Say Her Name" is mentioned in all the articles gathered. 
+
