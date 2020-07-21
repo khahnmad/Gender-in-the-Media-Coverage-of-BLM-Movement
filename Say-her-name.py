@@ -1,16 +1,13 @@
 # Imports
 import Protests_Functions as pf
-import collections
 import csv
-import seaborn as sns
-import matplotlib.pyplot as plt
-import pandas as pd
-from collections import Counter
 
 
 # Functions
+
+# Input: the file
+# Output: a list of all the sentences from the articles in the file
 def open_file(filename):
-    # open the file
     csvfile, csvColumns, columnsList, urlsList, token_sentences, lowered_sentences = [], [], [], [],[], []
     with open(filename, 'r', encoding='utf-8') as f:
         csv_f = csv.reader(f)
@@ -22,43 +19,39 @@ def open_file(filename):
             columnsList.append(i)
     while '' in columnsList:  # remove empty strings
         columnsList.remove('')
-    totalElements = len(columnsList)
     for elt in columnsList:  # remove content that is not a url and remove repeated urls
         for i in elt:
             if i.startswith('http') and i not in urlsList:
                 urlsList.append(i)
-    totalUnrepeatedElements = len(urlsList)
     listsOfSentences = []
     for url in urlsList:
         text = pf.get_page_sentences(url)  # gets stripped p tags from each url
         listsOfSentences.append(text)
     one_list_sentences = []
-    # print('First elemnt of list of Sentences:', listsOfSentences[0])
-    # token_sentences = pf.get_token_sentences(listsOfSentences)
-    # for sentence in one_list_sentences: # make all letters lowercase
-    #     lowered_sentences.append(sentence.lower())
     for elt in listsOfSentences:  # make it just one list of all the strings
         tokenized = pf.get_token_sentences(elt)
         token_sentences.append(tokenized)
     for elt in token_sentences:
         for item in elt:
             one_list_sentences.append(item)
-    # one_list_sentences = [st.replace("’", "") for st in one_list_sentences]
     return one_list_sentences
 
+# Input: the text and the three keywords you're looking for
+# Output: a list of all the time those three keywords occur together
 def find_trigrams(text, keyword1, keyword2, keyword3):
-    manyNgrams, keywordfirst, matched_ngrams = [], [], []
+    manyNgrams, matched_ngrams = [], [] #initialize
     for elt in text:
-        getNgrams = pf.extract_ngrams(elt, 3)
+        getNgrams = pf.extract_ngrams(elt, 3) # makes the text into trigrams
         manyNgrams.append(getNgrams)
     for elt in manyNgrams:
         for ngram in elt:
-            if keyword1 in ngram and keyword2 in ngram and keyword3 in ngram:
+            if keyword1 in ngram and keyword2 in ngram and keyword3 in ngram: # find trigrams that include alll three
                 matched_ngrams.append(ngram)
-    print('There are ', len(matched_ngrams), 'matched ngrams')
+    print('There are ', len(matched_ngrams), 'matched trigrams') # To see how many matched trigrams there are
     return matched_ngrams
 
-
+# Input: Far left, left, center, right and far right files
+# Output: No. of mentions of "Say her name" in each of those files
 def find_SHN(farleft_file, left_file, center_file, right_file, farright_file):
     # Open and read file
     FL_text = open_file(farleft_file)
@@ -74,8 +67,6 @@ def find_SHN(farleft_file, left_file, center_file, right_file, farright_file):
     SHN_R = find_trigrams(R_text, 'say', 'her', 'name')
     SHN_FR = find_trigrams(FR_text, 'say', 'her', 'name')
 
-    print('Far left:', SHN_FL)
-    print('Right:', SHN_R)
     return SHN_FL, SHN_L, SHN_C, SHN_R, SHN_FR
 
 # Variables
