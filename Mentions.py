@@ -1,12 +1,10 @@
 # Imports
 import Protests_Functions as pf
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
 
 
 # Functions
-# Input should be... one string ..
+# Input: text, keyword that you're looking for
+# Output: the number of keywords that were found
 def count_givenKeyword(text, keywords):
     matched = []
     for word in text:
@@ -41,64 +39,47 @@ farright_file = 'C:/Users/khahn/PycharmProjects/NLP Protests/article database/Pr
 GF_keywords = [ 'floyd']
 BT_keywords = ['taylor']
 
-# Action
+# Get the text from the Protest articles
 farleft_textP = pf.open_file(farleft_file)
-print(type(farleft_textP))
-print(len(farleft_textP))
-print(farleft_textP[0])
-
 left_textP = pf.open_file(left_file)
 center_textP = pf.open_file(center_file)
 right_textP = pf.open_file(right_file)
 farright_textP = pf.open_file(farright_file)
 
 all_textP = farleft_textP + left_textP + center_textP + right_textP + farright_textP
-print(type(all_textP))
-print(len(all_textP))
-print(all_textP[0])
 
+# Get the text from the George Floyd articles
 farleft_textGF = pf.open_file(farleft_fileG)
 left_textGF = pf.open_file(left_fileG)
 center_textGF = pf.open_file(center_fileG)
 right_textGF = pf.open_file(right_fileG)
 farright_textGF = pf.open_file(farright_fileG)
+
 all_textGF = farleft_textGF + left_textGF + center_textGF + right_textGF + farright_textGF
 
+# Get the text from the Breonna Taylor articles
 farleft_textBT = pf.open_file(farleft_fileB)
 left_textBT = pf.open_file(left_fileB)
 center_textBT = pf.open_file(center_fileB)
 right_textBT = pf.open_file(right_fileB)
 farright_textBT = pf.open_file(farright_fileB)
+
 all_textBT = farleft_textBT + left_textBT + center_textBT + right_textBT + farright_textBT
 
+# Count the mentions of George Floyd in all the text
 floyd_countGF = count_givenKeyword(all_textGF, GF_keywords)
 floyd_countBT = count_givenKeyword(all_textBT, GF_keywords)
 floyd_countP = count_givenKeyword(all_textP, GF_keywords)
 
-print('Floyd Floyd:', floyd_countGF)
-print('Floyd Taylor:', floyd_countBT)
-print('Floyd protests:', floyd_countP)
-
+# Count the mentions of Breonna Taylor in all the text
 taylor_countGT = count_givenKeyword(all_textGF, BT_keywords)
 taylor_countBT = count_givenKeyword(all_textBT, BT_keywords)
 taylor_countP = count_givenKeyword(all_textP, BT_keywords)
+
+# Print the number of mentions of George Floyd and Breonna Taylor
+print('Floyd Floyd:', floyd_countGF)
+print('Floyd Taylor:', floyd_countBT)
+print('Floyd protests:', floyd_countP)
 print('Taylor Floyd:', taylor_countGT)
 print('Taylor Taylor:', taylor_countBT)
 print('Taylor protests:', taylor_countP)
-
-# # FloydCount_FL = count_givenKeyword(farleft_textP, 'Floyd')
-# # FloydCount_L = count_givenKeyword(left_textP, 'Floyd')
-# # FloydCount_C = count_givenKeyword(center_textP, 'Floyd')
-# # FloydCount_R = count_givenKeyword(right_textP, 'Floyd')
-# # FloydCount_FR = count_givenKeyword(farright_textP, 'Floyd')
-# #
-# # frequency = [FloydCount_FL, FloydCount_L, FloydCount_C, FloydCount_R, FloydCount_FR]
-# # leaning = ['Far left', 'Left', 'Center', 'Right', 'Far Right']
-# #
-# # all_info = [leaning, frequency]
-# # df = pd.DataFrame(all_info).transpose()
-# # df.columns = ['Political Leaning', 'Frequency']
-# #
-# # plot = sns.catplot(x='Political Leaning',y='Frequency', data=df, kind='bar')
-# # #plot.set_title('Antifa mentions by newspapers from across the political spectrum covering the BLM protests')
-# # plt.show()
